@@ -1,0 +1,44 @@
+---
+title: "DiabetesDataEDA"
+format: html
+editor: visual
+---
+### Reading in Libraries
+```{r}
+library(tidyverse)
+```
+
+## Introduction
+### Description of Data
+### Purpose of EDA and Modeling Goals
+
+## Data
+### Reading in Data
+```{r}
+data <- read_csv("diabetes_binary_health_indicators_BRFSS2015.csv")
+```
+
+
+### Factor Conversions
+syntax
+```{r}
+#mutate(
+#SexF = factor(Sex, levels = c("female", "male"), labels = c("Female", "Male"))
+```
+
+```{r}
+data_factors <- data |>
+  mutate(
+    Diabetes_binaryF = factor(Diabetes_binary, 
+                              levels = c("0","1","2"), 
+                              labels = c("No Diabetes", "Prediabetes", "Diabetes")),
+    
+    
+    
+  )
+```
+
+### Missingness
+
+## Summarizations
+
