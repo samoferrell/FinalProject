@@ -151,6 +151,30 @@ As we can see, there are no missing entries within every column.
 ```{r}
 ggplot(data = data_factors, aes(x = SexF, fill = SexF)) +
   geom_bar() +
-  facet_grid(~ HighBPF)
+  facet_grid(~ Diabetes_binaryF)
+```
+```{r}
+conting_data <- as.data.frame(table(data_factors$HighBPF, data_factors$HighCholF, data_factors$Diabetes_binaryF))
+colnames(conting_data) <- c("BloodPressure", "Cholesterol", "Diabetes", "Total")
 ```
 
+```{r}
+ggplot(data = conting_data, aes(x = BloodPressure, y = Total, fill = Cholesterol)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  facet_grid(~ Diabetes) +
+  theme(axis.text.x = element_text(angle = 10))
+
+```
+This shows us that the vast majority of the observations are those without diabetes. Of those with diabetes, the majority have high blood pressure and those with high blood pressure are more likely to have high cholesterol as well. 
+
+```{r}
+table(data_factors$EducationF, data_factors$IncomeF)
+```
+
+```{r}
+ggplot(data = data_factors, aes(x = AgeF, fill = Diabetes_binaryF)) +
+  geom_bar() +
+  theme(axis.text.x = element_text(angle = 45)) +
+  facet_grid(~ HvyAlcoholConsumpF)
+```
+A lot of drinkers in our data set!
