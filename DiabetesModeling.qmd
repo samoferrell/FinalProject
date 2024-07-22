@@ -1,0 +1,27 @@
+---
+title: "DiabetesModeling"
+format: html
+editor: visual
+---
+
+## Introduction
+
+### Splitting the Data
+Then, split the data into a training (70% of the data) and test set (30% of the data). Use set.seed() to make things reproducible. 
+
+The goal is to create models for predicting the Diabetes_binary variable (using caret). We’ll use logLoss as our metric to evaluate models. For all model types use logLoss with 5 fold cross-validation to select the best model. You should set up your own grid of tuning parameters in any model where that is possible.
+• You should research and write up a paragraph about what log loss is and why we may prefer it to things like accuracy when we have a binary response variable.
+
+
+
+## Logistic Regression Models
+You should provide a reasonably thorough explanation of what a logistic regression model is and why we apply it to this kind of data. Then you should fit three candidate logistic regression models and choose the best model using CV with log-loss as your metric
+
+## Classification Tree
+You should provide a reasonably thorough explanation of what a classification tree model is and why we might try to use it. Then you should fit a classification tree with varying values for the complexity parameter and choose the best model (best complexity parameter).
+
+## Random Forest
+You should provide a reasonably thorough explanation of what a random forest is and why we might use it (especially in relation to a basic classification tree). You should then fit a random forest model and choose the best model.
+
+## Final Model Selection
+You should now have three best models (one for each model type above). Now compare all three models on the test set and declare an overall winner
