@@ -178,3 +178,9 @@ ggplot(data = data_factors, aes(x = AgeF, fill = Diabetes_binaryF)) +
   facet_grid(~ HvyAlcoholConsumpF)
 ```
 A lot of drinkers in our data set!
+
+Trying out proportion table!
+```{r}
+round(prop.table(table(data_factors$HvyAlcoholConsumpF, data_factors$Diabetes_binaryF)),2)
+```
+
