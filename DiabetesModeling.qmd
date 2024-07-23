@@ -4,18 +4,69 @@ format: html
 editor: visual
 ---
 
+```{r}
+library(tidyverse)
+library(caret)
+```
+
 ## Introduction
+```{r}
+data <- readRDS("data_factors.rds")
+#data <- data |>
+ # mutate(Diabetes_binaryF = factor(levels = c("0","1"),
+                          #         labels = c("No_Diabetes", "Diabetes")))
+#data <- pre_data |> 
+#  mutate(Diabetes_binary = as.factor(Diabetes_binary))#,
+         #HighBP = as.factor(HighBP),
+         #HighChol = as.factor(HighChol),
+         #Smoker = as.factor(Smoker))
+```
+
 
 ### Splitting the Data
-Then, split the data into a training (70% of the data) and test set (30% of the data). Use set.seed() to make things reproducible. 
+We will split the data in a 70/30 split. So, 70 percent of the data in the training set, and 30 percent in the test set. We’ll use logLoss as our metric to evaluate models. For all model types we will use logLoss with 5 fold cross-validation to select the best model. I will set up my own grid of tuning parameters in any model where that is possible. 
 
-The goal is to create models for predicting the Diabetes_binary variable (using caret). We’ll use logLoss as our metric to evaluate models. For all model types use logLoss with 5 fold cross-validation to select the best model. You should set up your own grid of tuning parameters in any model where that is possible.
-• You should research and write up a paragraph about what log loss is and why we may prefer it to things like accuracy when we have a binary response variable.
+You should research and write up a paragraph about what log loss is and why we may prefer it to things like accuracy when we have a binary response variable.
 
+```{r}
+set.seed(558)
+# Creating an 70/30 split
+split <- createDataPartition(y = data$Diabetes_binaryF, p = 0.7, list = FALSE)
+train <- data[split, ]
+test <- data[-split, ]
+dim(train)
+```
 
 
 ## Logistic Regression Models
-You should provide a reasonably thorough explanation of what a logistic regression model is and why we apply it to this kind of data. Then you should fit three candidate logistic regression models and choose the best model using CV with log-loss as your metric
+You should provide a reasonably thorough explanation of what a logistic regression model is and why we apply it to this kind of data. Then you should fit three candidate logistic regression models and choose the best model using CV with log-loss as your metric - lower is better
+
+```{r}
+# Model 1
+model1 <- Diabetes_binaryF ~ HighBPF + HighCholF + SmokerF
+
+# Model 2
+
+# Model 3
+
+```
+
+```{r}
+logFit1 <- train(model1, 
+              data = train,
+              method = "glm",
+              metric = "logLoss",
+              family = "binomial",
+              preProcess = c("center", "scale"),
+              trControl = trainControl(method = "cv", 
+                                       number = 5,
+                                       classProbs = TRUE,
+                                       summaryFunction = mnLogLoss))
+```
+
+```{r}
+logFit1
+```
 
 ## Classification Tree
 You should provide a reasonably thorough explanation of what a classification tree model is and why we might try to use it. Then you should fit a classification tree with varying values for the complexity parameter and choose the best model (best complexity parameter).
