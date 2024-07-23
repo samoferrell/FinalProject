@@ -7,6 +7,7 @@ editor: visual
 ```{r}
 library(tidyverse)
 library(caret)
+library(randomForest)
 ```
 
 ## Introduction
@@ -85,14 +86,40 @@ logFit3$results$logLoss
 
 ## Classification Tree
 You should provide a reasonably thorough explanation of what a classification tree model is and why we might try to use it. Then you should fit a classification tree with varying values for the complexity parameter and choose the best model (best complexity parameter).
+```{r}
+model <- Diabetes_binaryF ~ HvyAlcoholConsump + HighBP
+```
+
 
 ```{r}
-
+treeFit <- train(model, 
+              data = train,
+              method = "rpart",
+              metric = "logLoss",
+              trControl = trainControl(method = "cv", 
+                                       number = 5,
+                                       classProbs = TRUE,
+                                       summaryFunction = mnLogLoss),
+              tuneGrid = expand.grid(cp = seq(from = 0, to = 0.5, by = 0.01))
+              )
 ```
 
 
 ## Random Forest
 You should provide a reasonably thorough explanation of what a random forest is and why we might use it (especially in relation to a basic classification tree). You should then fit a random forest model and choose the best model.
+```{r}
+rfFit <- train(model, 
+              data = train,
+              method = "rf",
+              metric = "logLoss",
+              trControl = trainControl(method = "cv", 
+                                       number = 3,
+                                       classProbs = TRUE,
+                                       summaryFunction = mnLogLoss),
+              tuneGrid = data.frame(mtry = 1:2),
+              ntree = 100)
+```
+
 
 ## Final Model Selection
 You should now have three best models (one for each model type above). Now compare all three models on the test set and declare an overall winner
