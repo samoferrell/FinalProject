@@ -12,14 +12,6 @@ library(caret)
 ## Introduction
 ```{r}
 data <- readRDS("data_factors.rds")
-#data <- data |>
- # mutate(Diabetes_binaryF = factor(levels = c("0","1"),
-                          #         labels = c("No_Diabetes", "Diabetes")))
-#data <- pre_data |> 
-#  mutate(Diabetes_binary = as.factor(Diabetes_binary))#,
-         #HighBP = as.factor(HighBP),
-         #HighChol = as.factor(HighChol),
-         #Smoker = as.factor(Smoker))
 ```
 
 
@@ -46,9 +38,10 @@ You should provide a reasonably thorough explanation of what a logistic regressi
 model1 <- Diabetes_binaryF ~ HighBPF + HighCholF + SmokerF
 
 # Model 2
+model2 <- Diabetes_binaryF ~ SexF + AgeF + EducationF + IncomeF
 
 # Model 3
-
+model3 <- Diabetes_binaryF ~ HvyAlcoholConsumpF + GenHlthF + PhysHlthF + MentHlthF
 ```
 
 ```{r}
@@ -62,14 +55,41 @@ logFit1 <- train(model1,
                                        number = 5,
                                        classProbs = TRUE,
                                        summaryFunction = mnLogLoss))
+logFit2 <- train(model2, 
+              data = train,
+              method = "glm",
+              metric = "logLoss",
+              family = "binomial",
+              preProcess = c("center", "scale"),
+              trControl = trainControl(method = "cv", 
+                                       number = 5,
+                                       classProbs = TRUE,
+                                       summaryFunction = mnLogLoss))
+logFit3 <- train(model3, 
+              data = train,
+              method = "glm",
+              metric = "logLoss",
+              family = "binomial",
+              preProcess = c("center", "scale"),
+              trControl = trainControl(method = "cv", 
+                                       number = 5,
+                                       classProbs = TRUE,
+                                       summaryFunction = mnLogLoss))
 ```
 
 ```{r}
-logFit1
+logFit1$results$logLoss
+logFit2$results$logLoss
+logFit3$results$logLoss
 ```
 
 ## Classification Tree
 You should provide a reasonably thorough explanation of what a classification tree model is and why we might try to use it. Then you should fit a classification tree with varying values for the complexity parameter and choose the best model (best complexity parameter).
+
+```{r}
+
+```
+
 
 ## Random Forest
 You should provide a reasonably thorough explanation of what a random forest is and why we might use it (especially in relation to a basic classification tree). You should then fit a random forest model and choose the best model.
