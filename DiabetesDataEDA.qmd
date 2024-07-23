@@ -27,7 +27,7 @@ data_factors <- data |>
   mutate(
     Diabetes_binaryF = factor(Diabetes_binary, 
                               levels = c("0","1"), 
-                              labels = c("No Diabetes", "Diabetes")),
+                              labels = c("No_Diabetes", "Diabetes")),
     HighBPF = factor(HighBP, 
                               levels = c("0","1"), 
                               labels = c("No High Blood Pressure", "High Blood Pressure")),
@@ -136,6 +136,10 @@ data_factors <- data |>
                                          "Less than $50,000",
                                          "Less than $75,000",
                                          "More than $75,000")))
+```
+
+```{r}
+saveRDS(data_factors, "data_factors.rds")
 ```
 
 ### Missingness
