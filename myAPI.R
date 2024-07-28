@@ -131,9 +131,9 @@ function(predictor, data = data_factors){
     return(paste("The mean of", predictor, "is", mean_value))  
   }
 }
-#http://localhost:8000/pred?predictor=GenHlthF
-#http://localhost:8000/pred?predictor=BMI
-#http://localhost:8000/pred?predictor=SmokerF
+#http://localhost:PORT/pred?predictor=GenHlthF
+#http://localhost:PORT/pred?predictor=BMI
+#http://localhost:PORT/pred?predictor=SmokerF
 
 
 
@@ -142,3 +142,4 @@ function(predictor, data = data_factors){
 function(){
   "Samuel O'Ferrell - "
 }
+#http://localhost:PORT/info
