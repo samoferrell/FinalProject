@@ -132,3 +132,7 @@ test <- function(predictor, data = data_factors){
     return(cat("The mean of", predictor, "is", mean_value))  
   }
   }
+#* @get /readme
+function(){
+  "Samuel O'Ferrell - "
+}

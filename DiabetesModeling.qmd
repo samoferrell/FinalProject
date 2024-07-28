@@ -11,11 +11,15 @@ library(randomForest)
 ```
 
 ## Introduction
+<<<<<<< HEAD
 
+=======
+>>>>>>> eeb5feba0a860b69cfaef82b27c493957c8ddd14
 ```{r}
 data <- readRDS("data_factors.rds")
 ```
 
+<<<<<<< HEAD
 ### Splitting the Data
 
 We will split the data in a 70/30 split. So, 70 percent of the data in the training set, and 30 percent in the test set. We’ll use logLoss as our metric to evaluate models. For all model types we will use logLoss with 5 fold cross-validation to select the best model. I will set up my own grid of tuning parameters in any model where that is possible.
@@ -24,6 +28,13 @@ https://towardsdatascience.com/intuition-behind-log-loss-score-4e0c9979680a
 
 "Log-loss is indicative of how close the prediction probability is to the corresponding actual/true value (0 or 1 in case of binary classification). The more the predicted probability diverges from the actual value, the higher is the log-loss value." This is why we want to choose a model with the lowest Log-loss value. Log-loss is useful because instead of calculating a response as correct / incorrect in terms of accuracy, it takes into account how close it is to the true value. So for instance, if the actual response was 1 and the predicted response was 0.9, our accuracy metric would count this as incorrect because it is not equal to the same value. 
 
+=======
+
+### Splitting the Data
+We will split the data in a 70/30 split. So, 70 percent of the data in the training set, and 30 percent in the test set. We’ll use logLoss as our metric to evaluate models. For all model types we will use logLoss with 5 fold cross-validation to select the best model. I will set up my own grid of tuning parameters in any model where that is possible. 
+
+You should research and write up a paragraph about what log loss is and why we may prefer it to things like accuracy when we have a binary response variable.
+>>>>>>> eeb5feba0a860b69cfaef82b27c493957c8ddd14
 
 ```{r}
 set.seed(558)
@@ -34,9 +45,15 @@ test <- data[-split, ]
 dim(train)
 ```
 
+<<<<<<< HEAD
 ## Logistic Regression Models
 
 A logistic regression model is a regression model where the response we are trying to predict is a binary outcome. The output from this model is generally given as a log odds ratio for each respective parameter. Exponentiating each of these coefficients with base 'e', we will get the odds ratio. This tells us how a change in a predictor by one unit affects the odds of the occurrence of the outcome.
+=======
+
+## Logistic Regression Models
+You should provide a reasonably thorough explanation of what a logistic regression model is and why we apply it to this kind of data. Then you should fit three candidate logistic regression models and choose the best model using CV with log-loss as your metric - lower is better
+>>>>>>> eeb5feba0a860b69cfaef82b27c493957c8ddd14
 
 ```{r}
 # Model 1
@@ -46,7 +63,11 @@ model1 <- Diabetes_binaryF ~ HighBPF + HighCholF + SmokerF
 model2 <- Diabetes_binaryF ~ SexF + AgeF + EducationF + IncomeF
 
 # Model 3
+<<<<<<< HEAD
 model3 <- Diabetes_binaryF ~ HvyAlcoholConsumpF + GenHlthF + PhysHlthF + MentHlthF + SmokerF + HighCholF
+=======
+model3 <- Diabetes_binaryF ~ HvyAlcoholConsumpF + GenHlthF + PhysHlthF + MentHlthF
+>>>>>>> eeb5feba0a860b69cfaef82b27c493957c8ddd14
 ```
 
 ```{r}
@@ -89,6 +110,7 @@ logFit3$results$logLoss
 ```
 
 ## Classification Tree
+<<<<<<< HEAD
 
 A classification tree is a type of decision tree that uses the values of predictors to make a prediction of the classification of the response for that data point. It is very easy to visualize / interpret and is not computationally expensive. Trees also automatically account for interactions. For classification, the prediction is the most common outcome.
 
@@ -101,11 +123,20 @@ model <- Diabetes_binaryF ~ HvyAlcoholConsumpF + HighBPF + PhysHlthF + MentHlthF
 #SmokerF + StrokeF + HighCholF + CholCheckF + FruitsF + VeggiesF + GenHlthF
 ```
 
+=======
+You should provide a reasonably thorough explanation of what a classification tree model is and why we might try to use it. Then you should fit a classification tree with varying values for the complexity parameter and choose the best model (best complexity parameter).
+```{r}
+model <- Diabetes_binaryF ~ HvyAlcoholConsump + HighBP
+```
+
+
+>>>>>>> eeb5feba0a860b69cfaef82b27c493957c8ddd14
 ```{r}
 treeFit <- train(model, 
               data = train,
               method = "rpart",
               metric = "logLoss",
+<<<<<<< HEAD
               preProcess = c("center","scale"),
               trControl = trainControl(method = "cv", 
                                        number = 3,
@@ -126,12 +157,26 @@ A Random Forest builds hundreds of classification trees and outputs the most com
 
 You should provide a reasonably thorough explanation of what a random forest is and why we might use it (especially in relation to a basic classification tree). You should then fit a random forest model and choose the best model.
 
+=======
+              trControl = trainControl(method = "cv", 
+                                       number = 5,
+                                       classProbs = TRUE,
+                                       summaryFunction = mnLogLoss),
+              tuneGrid = expand.grid(cp = seq(from = 0, to = 0.5, by = 0.01))
+              )
+```
+
+
+## Random Forest
+You should provide a reasonably thorough explanation of what a random forest is and why we might use it (especially in relation to a basic classification tree). You should then fit a random forest model and choose the best model.
+>>>>>>> eeb5feba0a860b69cfaef82b27c493957c8ddd14
 ```{r}
 rfFit <- train(model, 
               data = train,
               method = "rf",
               metric = "logLoss",
               trControl = trainControl(method = "cv", 
+<<<<<<< HEAD
                                        number = 2,
                                        classProbs = TRUE,
                                        summaryFunction = mnLogLoss),
@@ -147,3 +192,15 @@ confusionMatrix(data = test$Diabetes_binaryF,
                 reference = predict(logFit3, newdata = test))
 ```
 
+=======
+                                       number = 3,
+                                       classProbs = TRUE,
+                                       summaryFunction = mnLogLoss),
+              tuneGrid = data.frame(mtry = 1:2),
+              ntree = 100)
+```
+
+
+## Final Model Selection
+You should now have three best models (one for each model type above). Now compare all three models on the test set and declare an overall winner
+>>>>>>> eeb5feba0a860b69cfaef82b27c493957c8ddd14
