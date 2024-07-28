@@ -115,24 +115,30 @@ data_factors <- data |>
                                 "Less than $50,000",
                                 "Less than $75,000",
                                 "More than $75,000")))
-model3 <- Diabetes_binaryF ~ HvyAlcoholConsumpF + GenHlthF + PhysHlthF + MentHlthF + SmokerF + HighCholF + BMI
-fit <- glm(model3, data = data, family = "binomial")
+fit <- glm(Diabetes_binaryF ~ HvyAlcoholConsumpF + PhysHlthF + MentHlthF + SmokerF + HighCholF + BMI, data = data_factors, family = "binomial")
 ####################################### adding API stuff below ###################################
 
-#* @get /mode
+#* @get /pred
 #* @param predictor
-test <- function(predictor, data = data_factors){
+function(predictor, data = data_factors){
   if (is.factor(data_factors[[predictor]])){
     mode <- Mode(data_factors[[predictor]])
     value <- as.character(mode[[1]])
-    return(cat("The most prevalent value for", predictor, "is", value))
+    return(paste("The most prevalent value for", predictor, "is", value))
   }
   if (!is.factor(data_factors[[predictor]])){
     mean_value <- mean(data_factors[[predictor]])
-    return(cat("The mean of", predictor, "is", mean_value))  
+    return(paste("The mean of", predictor, "is", mean_value))  
   }
-  }
-#* @get /readme
+}
+#http://localhost:8000/pred?predictor=GenHlthF
+#http://localhost:8000/pred?predictor=BMI
+#http://localhost:8000/pred?predictor=SmokerF
+
+
+
+
+#* @get /info
 function(){
   "Samuel O'Ferrell - "
 }

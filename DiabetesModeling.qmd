@@ -151,5 +151,9 @@ You should now have three best models (one for each model type above). Now compa
 ```{r}
 confusionMatrix(data = test$Diabetes_binaryF, 
                 reference = predict(logFit3, newdata = test))
+confusionMatrix(data = test$Diabetes_binaryF, 
+                reference = predict(logFit3, newdata = test))
+confusionMatrix(data = test$Diabetes_binaryF, 
+                reference = predict(logFit3, newdata = test))
 ```
 
