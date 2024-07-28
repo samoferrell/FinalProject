@@ -1,4 +1,5 @@
 library(tidyverse)
+library(leaflet)
 library(plumber)
 library(DescTools) # for getting mode
 data <- read_csv("diabetes_binary_health_indicators_BRFSS2015.csv")
