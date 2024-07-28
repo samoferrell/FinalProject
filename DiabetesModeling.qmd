@@ -46,7 +46,7 @@ model1 <- Diabetes_binaryF ~ HighBPF + HighCholF + SmokerF
 model2 <- Diabetes_binaryF ~ SexF + AgeF + EducationF + IncomeF
 
 # Model 3
-model3 <- Diabetes_binaryF ~ HvyAlcoholConsumpF + GenHlthF + PhysHlthF + MentHlthF
+model3 <- Diabetes_binaryF ~ HvyAlcoholConsumpF + GenHlthF + PhysHlthF + MentHlthF + SmokerF + HighCholF
 ```
 
 ```{r}
