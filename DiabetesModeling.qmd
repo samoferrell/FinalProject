@@ -95,7 +95,7 @@ logFit3$results$logLoss
 ## Classification Tree
 A classification tree is a type of decision tree that uses the values of predictors to make a prediction of the classification of the response for that data point. It is very easy to visualize / interpret and is not computationally expensive. Trees also automatically account for interactions. For classification, the prediction is the most common outcome.
 
-We will fit a clssification tree and test multiple complexity parameters to find the best one, based on the lowest logLoss.
+We will fit a classification tree and test multiple complexity parameters to find the best one, based on the lowest logLoss.
 ```{r}
 model <- Diabetes_binaryF ~ HvyAlcoholConsumpF + HighBPF + PhysHlthF + MentHlthF + SexF + AgeF + IncomeF + EducationF + BMI 
 ```
