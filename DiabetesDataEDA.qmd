@@ -10,8 +10,20 @@ library(ggplot2)
 ```
 
 ## Introduction
-### Description of Data
+The data we will be examining and modeling in this project is a data set with 253,680 survey responses to the CDC's BRFSS2015. The response variable we will be modeling is a binary variable of whether or not the observation had or did not have diabetes. Some predictors we will examine are:
+- HighBP (0 = no high BP / 1 = high BP) 
+- HighChol (0 = no high cholesterol / 1 = high cholesterol)
+- Smoker (Have you smoked at least 100 cigarettes in your entire life? 0 = no / 1 = yes)
+- Sex (0 = female / 1 = male)
+- Age (13-level age category (_AGEG5YR see codebook))
+- Education (Education level (EDUCA see codebook))
+- Income (Income scale)
+- HvyAlcoholConsump (Is or is not a heavy drinker)
+- PhysHlth (How many days during the past 30 were you not physically active)
+- MentHlth (How many days during the past 30 were you not mentally healthy)
+- BMI (Body Mass Index)
 ### Purpose of EDA and Modeling Goals
+Our EDA gives us insight to our data and helps guide the modeling that we will be conducting. This can be accessed via the link at the bottom of the page. The purpose of our modeling will be trying to generate the best possible model at predicting whether or not someone has diabetes, based on the values of their predictors. We will be using predictive analysis with a training and test set via the caret package.
 
 ## Data
 ### Reading in Data
@@ -21,7 +33,7 @@ data <- read_csv("diabetes_binary_health_indicators_BRFSS2015.csv")
 
 
 ### Factor Conversions
-
+We will now convert the necessary columns to factors, specifying appropiate labels for each.
 ```{r}
 data_factors <- data |>
   mutate(
@@ -145,12 +157,14 @@ saveRDS(data_factors, "data_factors.rds")
 ### Missingness
 
 ```{r}
-colSums(is.na(data_factors$SexF))
+colSums(is.na(data_factors))
 ```
 
 As we can see, there are no missing entries within every column. 
 
 ## Summarizations
+
+Let's now create some graphs and tables to perform EDA.
 
 ```{r}
 ggplot(data = data_factors, aes(x = SexF, fill = SexF)) +
@@ -183,8 +197,11 @@ ggplot(data = data_factors, aes(x = AgeF, fill = Diabetes_binaryF)) +
 ```
 A lot of drinkers in our data set!
 
-Trying out proportion table!
+Trying out proportion tables
 ```{r}
-round(prop.table(table(data_factors$HvyAlcoholConsumpF, data_factors$Diabetes_binaryF)),2)
+round(prop.table(table(data_factors$SmokerF, data_factors$Diabetes_binaryF)),2)
+round(prop.table(table(data_factors$CholCheckF, data_factors$Diabetes_binaryF)),2)
+round(prop.table(table(data_factors$StrokeF, data_factors$Diabetes_binaryF)),2)
+
 ```
 

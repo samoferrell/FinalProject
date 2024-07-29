@@ -12,6 +12,7 @@ library(randomForest)
 
 ## Introduction
 
+We will read in the R Data Set that we saved in the previous file
 ```{r}
 data <- readRDS("data_factors.rds")
 ```
@@ -20,13 +21,12 @@ data <- readRDS("data_factors.rds")
 
 We will split the data in a 70/30 split. So, 70 percent of the data in the training set, and 30 percent in the test set. We’ll use logLoss as our metric to evaluate models. For all model types we will use logLoss with 5 fold cross-validation to select the best model. I will set up my own grid of tuning parameters in any model where that is possible.
 
+"Log-loss is indicative of how close the prediction probability is to the corresponding actual/true value (0 or 1 in case of binary classification). The more the predicted probability diverges from the actual value, the higher is the log-loss value." 
 https://towardsdatascience.com/intuition-behind-log-loss-score-4e0c9979680a
 
-"Log-loss is indicative of how close the prediction probability is to the corresponding actual/true value (0 or 1 in case of binary classification). The more the predicted probability diverges from the actual value, the higher is the log-loss value." This is why we want to choose a model with the lowest Log-loss value. Log-loss is useful because instead of calculating a response as correct / incorrect in terms of accuracy, it takes into account how close it is to the true value. So for instance, if the actual response was 1 and the predicted response was 0.9, our accuracy metric would count this as incorrect because it is not equal to the same value. 
 
+This is why we want to choose a model with the lowest Log-loss value. Log-loss is useful because instead of calculating a response as correct / incorrect in terms of accuracy, it takes into account how close it is to the true value. So for instance, if the actual response was 1 and the predicted response was 0.9, our accuracy metric would count this as incorrect because it is not equal to the same value. 
 
-
-You should research and write up a paragraph about what log loss is and why we may prefer it to things like accuracy when we have a binary response variable.
 
 ```{r}
 set.seed(558)
@@ -50,7 +50,7 @@ model1 <- Diabetes_binaryF ~ HighBPF + HighCholF + SmokerF
 model2 <- Diabetes_binaryF ~ SexF + AgeF + EducationF + IncomeF
 
 # Model 3
-model3 <- Diabetes_binaryF ~ HvyAlcoholConsumpF + GenHlthF + PhysHlthF + MentHlthF + SmokerF + HighCholF
+model3 <- Diabetes_binaryF ~ HvyAlcoholConsumpF + PhysHlthF + MentHlthF + SmokerF + HighCholF + BMI
 ```
 
 ```{r}
@@ -95,13 +95,9 @@ logFit3$results$logLoss
 ## Classification Tree
 A classification tree is a type of decision tree that uses the values of predictors to make a prediction of the classification of the response for that data point. It is very easy to visualize / interpret and is not computationally expensive. Trees also automatically account for interactions. For classification, the prediction is the most common outcome.
 
-You should provide a reasonably thorough explanation of what a classification tree model is and why we might try to use it. 
-
-Then you should fit a classification tree with varying values for the complexity parameter and choose the best model (best complexity parameter).
-
+We will fit a clssification tree and test multiple complexity parameters to find the best one, based on the lowest logLoss.
 ```{r}
 model <- Diabetes_binaryF ~ HvyAlcoholConsumpF + HighBPF + PhysHlthF + MentHlthF + SexF + AgeF + IncomeF + EducationF + BMI 
-#SmokerF + StrokeF + HighCholF + CholCheckF + FruitsF + VeggiesF + GenHlthF
 ```
 
 
@@ -120,18 +116,14 @@ treeFit <- train(model,
 
 ```
 
-
-```{r}
-plot(treeFit)
-```
-The best logLoss was found when our cp = 0.001, giving us a logLoss of 0.3546440
+The best logLoss was found when our cp = 0.001, giving us a logLoss of roughly 0.35
 
 
 
 ## Random Forest
 A Random Forest builds hundreds of classification trees and outputs the most common classifications of the individual trees. This is what it uses for the predictions, and it is generally much more accurate. The downside, is that it is way more computationally intensive. 
 
-You should provide a reasonably thorough explanation of what a random forest is and why we might use it (especially in relation to a basic classification tree). You should then fit a random forest model and choose the best model.
+Now we will run a random forest and find the mtry value with the lowest logLoss.
 ```{r}
 rfFit <- train(model, 
               data = train,
@@ -142,18 +134,18 @@ rfFit <- train(model,
                                        classProbs = TRUE,
                                        summaryFunction = mnLogLoss),
               tuneGrid = data.frame(mtry = 1:5),
-              ntree = 20)
+              ntree = 50)
 ```
 
 ## Final Model Selection
 
-You should now have three best models (one for each model type above). Now compare all three models on the test set and declare an overall winner
+Now we will compare our best model for our logistic regression, classification tree, and our random forest model. 
 ```{r}
 confusionMatrix(data = test$Diabetes_binaryF, 
                 reference = predict(logFit3, newdata = test))
 confusionMatrix(data = test$Diabetes_binaryF, 
-                reference = predict(logFit3, newdata = test))
+                reference = predict(treeFit, newdata = test))
 confusionMatrix(data = test$Diabetes_binaryF, 
-                reference = predict(logFit3, newdata = test))
+                reference = predict(rfFit, newdata = test))
 ```
-
+As we see, our logistic regression model had the best accuracy, so we will continue with this model through the API portion, allowing the user to investigate the different predictors.
