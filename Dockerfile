@@ -2,9 +2,9 @@ FROM rocker/r-ver:3.5.0
 
 RUN apt-get update -qq && apt-get install -y libssl-dev libcurl4-gnutls-dev
 
-RUN R -e "intall.packages('plumber')"
-RUN R -e "intall.packages('DescTools')"
-RUN R -e "intall.packages('tidyverse')"
+RUN R -e "install.packages('plumber')"
+RUN R -e "install.packages('DescTools')"
+RUN R -e "install.packages('tidyverse')"
 
 COPY myAPI.R myAPI.R
 EXPOSE 8000

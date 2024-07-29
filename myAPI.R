@@ -36,7 +36,7 @@ if (value > 0.5){
 return("Predicted to have diabetes")
 }
 else if (value <= 0.5){
-  return("Predicted to not have diabetes")
+  return("Predicted to NOT have diabetes")
   
 }
 }
