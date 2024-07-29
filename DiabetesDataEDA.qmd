@@ -204,4 +204,5 @@ round(prop.table(table(data_factors$CholCheckF, data_factors$Diabetes_binaryF)),
 round(prop.table(table(data_factors$StrokeF, data_factors$Diabetes_binaryF)),2)
 
 ```
-
+## Modeling HTML Link
+[Link to Modeing HTML Page](DiabetesModeling.html)
