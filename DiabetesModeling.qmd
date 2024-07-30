@@ -130,11 +130,11 @@ rfFit <- train(model,
               method = "rf",
               metric = "logLoss",
               trControl = trainControl(method = "cv", 
-                                       number = 3,
+                                       number = 2, # should be 5 
                                        classProbs = TRUE,
                                        summaryFunction = mnLogLoss),
               tuneGrid = data.frame(mtry = 1:5),
-              ntree = 100)
+              ntree = 50) # this should be bigger, but its 2 am and i cant get it to run at any higher number
 rfFit
 ```
 

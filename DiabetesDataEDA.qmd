@@ -15,8 +15,6 @@ library(ggplot2)
 
 The data we will be examining and modeling in this project is a data set with 253,680 survey responses to the CDC's BRFSS2015. The response variable we will be modeling is a binary variable of whether or not the observation had or did not have diabetes. Some predictors we will examine are:
 
--   
-
 -   HighBP (0 = no high BP / 1 = high BP)
 
 -   HighChol (0 = no high cholesterol / 1 = high cholesterol)
