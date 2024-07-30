@@ -1,6 +1,6 @@
 library(tidyverse)
 library(DescTools) # for getting mode
-data <- readRDS("data_factors.rds")
+data <- read_csv("diabetes_binary_health_indicators_BRFSS2015.csv")
 fit <- glm(Diabetes_binaryF ~ HvyAlcoholConsumpF + PhysHlthF + MentHlthF + SmokerF + HighCholF + BMI, data = data, family = "binomial")
 ####################################### adding API stuff below ###################################
 
