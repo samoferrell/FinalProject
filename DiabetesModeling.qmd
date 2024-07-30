@@ -97,7 +97,7 @@ A classification tree is a type of decision tree that uses the values of predict
 
 We will fit a classification tree and test multiple complexity parameters to find the best one, based on the lowest logLoss.
 ```{r}
-model <- Diabetes_binaryF ~ HvyAlcoholConsumpF + HighBPF + PhysHlthF + MentHlthF + SexF + AgeF + IncomeF + EducationF + BMI 
+model <- Diabetes_binaryF ~  PhysHlthF + MentHlthF + SexF + AgeF + IncomeF + EducationF + BMI 
 ```
 
 
@@ -113,10 +113,10 @@ treeFit <- train(model,
                                        classProbs = TRUE,
                                        summaryFunction = mnLogLoss),
               tuneGrid = expand.grid(cp = seq(from = 0, to = 0.01, by = 0.001)))
-
+treeFit
 ```
 
-The best logLoss was found when our cp = 0.001, giving us a logLoss of roughly 0.35
+The best logLoss was found when our cp = 0, giving us a logLoss of roughly 0.38
 
 
 
@@ -130,11 +130,12 @@ rfFit <- train(model,
               method = "rf",
               metric = "logLoss",
               trControl = trainControl(method = "cv", 
-                                       number = 2,
+                                       number = 3,
                                        classProbs = TRUE,
                                        summaryFunction = mnLogLoss),
               tuneGrid = data.frame(mtry = 1:5),
-              ntree = 50)
+              ntree = 100)
+rfFit
 ```
 
 ## Final Model Selection
@@ -148,4 +149,4 @@ confusionMatrix(data = test$Diabetes_binaryF,
 confusionMatrix(data = test$Diabetes_binaryF, 
                 reference = predict(rfFit, newdata = test))
 ```
-As we see, our logistic regression model had the best accuracy, so we will continue with this model through the API portion, allowing the user to investigate the different predictors.
+As we see, our logistic regression model had a pretty good accuracy and also the best logloss, so we will continue with this model through the API portion, allowing the user to investigate the different predictors.
